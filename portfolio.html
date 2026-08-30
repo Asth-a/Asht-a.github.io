@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astha Thapa | Portfolio</title>
+
+<!--
+  ===================== EDIT-ME GUIDE =====================
+  1. Social / contact links -> search for "EDIT: LINKS" below and drop in your
+     GitHub, LinkedIn, Email and LeetCode URLs.
+  2. Profile photo -> search for "EDIT: PHOTO" and replace the placeholder
+     div with an <img src="your-photo.jpg" ...> tag.
+  3. Education -> search for "EDIT: EDUCATION" and fill in your college name
+     and years.
+  4. Resume/CV -> search for "EDIT: RESUME" to link a CV file.
+  ===========================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0F1D1A;
+    --bg-raised:#142823;
+    --bg-card:#173029;
+    --line:#28453c;
+    --text:#EDEAE0;
+    --text-dim:#9FB3AB;
+    --text-faint:#6B8079;
+    --amber:#E3A857;
+    --sage:#7FB89D;
+    --sage-dim:#4d7565;
+    --danger:#E0785A;
+    --radius:2px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{background:var(--amber);color:#10201C;}
+
+  a{color:inherit;text-decoration:none;}
+
+  h1,h2,h3,h4{
+    font-family:'Space Grotesk',sans-serif;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  .wrap{
+    max-width:1080px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- scanline / grid backdrop ---------- */
+  .grid-bg{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    background-image:
+      linear-gradient(rgba(127,184,157,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(127,184,157,0.05) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+
+  /* ---------- nav ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(15,29,26,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:64px;
+  }
+  .brand{
+    font-family:'JetBrains Mono',monospace;
+    font-size:15px;
+    font-weight:500;
+    color:var(--sage);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .brand .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--sage);
+    box-shadow:0 0 8px var(--sage);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;}
+    50%{opacity:0.35;}
+  }
+  .navlinks{
+    display:flex;
+    gap:28px;
+    font-size:13px;
+    font-family:'JetBrains Mono',monospace;
+    color:var(--text-dim);
+  }
+  .navlinks a{
+    transition:color .2s;
+    position:relative;
+  }
+  .navlinks a:hover{color:var(--amber);}
+  .navlinks .idx{color:var(--sage-dim);margin-right:6px;}
+  @media (max-width:720px){
+    .navlinks{display:none;}
+  }
+
+  /* ---------- hero / terminal ---------- */
+  .hero{
+    padding:110px 0 90px;
+    min-height:88vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .terminal{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:6px;
+    max-width:640px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.5);
+    margin-bottom:44px;
+  }
+  .terminal-bar{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:10px 14px;
+    border-bottom:1px solid var(--line);
+  }
+  .terminal-bar span{
+    width:10px;height:10px;border-radius:50%;
+    background:#3a5850;
+  }
+  .terminal-bar .label{
+    margin-left:8px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--text-faint);
+  }
+  .terminal-body{
+    padding:20px 22px 24px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13.5px;
+    color:var(--sage);
+  }
+  .terminal-body .line{margin-bottom:6px;}
+  .terminal-body .muted{color:var(--text-faint);}
+  .terminal-body .out{color:var(--text-dim);}
+  #typed-line::after{
+    content:'▍';
+    animation:blink 1s step-start infinite;
+    color:var(--amber);
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  .hero h1{
+    font-size:clamp(38px,6vw,64px);
+    font-weight:700;
+    color:var(--text);
+  }
+  .hero .role{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--amber);
+    font-size:15px;
+    margin-top:14px;
+    letter-spacing:0.02em;
+  }
+  .hero p.tag{
+    max-width:560px;
+    color:var(--text-dim);
+    margin-top:18px;
+    font-size:16px;
+  }
+  .hero-cta{
+    display:flex;
+    gap:14px;
+    margin-top:32px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 22px;
+    border-radius:2px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    font-weight:500;
+    border:1px solid var(--line);
+    transition:all .2s;
+  }
+  .btn-solid{
+    background:var(--amber);
+    color:#10201C;
+    border-color:var(--amber);
+  }
+  .btn-solid:hover{background:#f0b96c;}
+  .btn-ghost{
+    color:var(--sage);
+  }
+  .btn-ghost:hover{
+    border-color:var(--sage);
+    background:rgba(127,184,157,0.06);
+  }
+
+  /* ---------- section shell ---------- */
+  section{padding:100px 0;border-top:1px solid var(--line);}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--sage);
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:24px;height:1px;
+    background:var(--sage-dim);
+  }
+  .section-title{
+    font-size:clamp(26px,3.4vw,36px);
+    margin-bottom:50px;
+    max-width:640px;
+  }
+
+  /* ---------- about ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:56px;
+  }
+  @media (max-width:800px){
+    .about-grid{grid-template-columns:1fr;}
+  }
+  .about-grid p{color:var(--text-dim);margin-bottom:16px;}
+  .readout{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:22px 24px;
+    align-self:start;
+  }
+  .readout .rline{
+    display:flex;
+    justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    padding:9px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .readout .rline:last-child{border-bottom:none;}
+  .readout .rline .k{color:var(--text-faint);}
+  .readout .rline .v{color:var(--sage);text-align:right;}
+
+  /* ---------- avatar ---------- */
+  .avatar-frame{
+    width:150px;height:150px;
+    border-radius:6px;
+    border:1px dashed var(--sage-dim);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--text-faint);
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    text-align:center;
+    margin-bottom:26px;
+    background:
+      repeating-linear-gradient(45deg, rgba(127,184,157,0.04) 0 8px, transparent 8px 16px);
+    overflow:hidden;
+  }
+  /* EDIT: PHOTO — replace .avatar-frame contents above with an <img> tag */
+
+  /* ---------- skills ---------- */
+  .skill-groups{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:32px;
+  }
+  @media (max-width:860px){
+    .skill-groups{grid-template-columns:1fr;}
+  }
+  .skill-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:24px;
+  }
+  .skill-card h3{
+    font-size:13px;
+    font-family:'JetBrains Mono',monospace;
+    color:var(--text-faint);
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    margin-bottom:20px;
+  }
+  .gauge{margin-bottom:18px;}
+  .gauge:last-child{margin-bottom:0;}
+  .gauge-top{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    margin-bottom:7px;
+  }
+  .gauge-top .name{color:var(--text);font-weight:500;}
+  .gauge-top .lvl{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--text-faint);
+  }
+  .gauge-track{
+    height:5px;
+    background:#0d1b18;
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .gauge-fill{
+    height:100%;
+    border-radius:3px;
+    background:linear-gradient(90deg, var(--sage-dim), var(--sage));
+    width:0%;
+    transition:width 1.1s cubic-bezier(.2,.8,.2,1);
+  }
+  .gauge-fill.amber{background:linear-gradient(90deg,#a9782f,var(--amber));}
+
+  .learning-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:36px;
+  }
+  .learning-chip{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    padding:7px 13px;
+    border:1px solid var(--sage-dim);
+    border-radius:20px;
+    color:var(--sage);
+    position:relative;
+    padding-left:22px;
+  }
+  .learning-chip::before{
+    content:'';
+    position:absolute;left:11px;top:50%;
+    transform:translateY(-50%);
+    width:6px;height:6px;border-radius:50%;
+    background:var(--amber);
+    box-shadow:0 0 6px var(--amber);
+  }
+
+  /* ---------- soft skills ---------- */
+  .soft-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  @media (max-width:760px){
+    .soft-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  .soft-item{
+    background:var(--bg);
+    padding:26px 22px;
+  }
+  .soft-item .num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--sage-dim);
+    display:block;
+    margin-bottom:10px;
+  }
+  .soft-item h4{font-size:16px;margin-bottom:8px;}
+  .soft-item p{font-size:13.5px;color:var(--text-dim);margin:0;}
+
+  /* ---------- education ---------- */
+  .edu-card{
+    border:1px dashed var(--sage-dim);
+    border-radius:4px;
+    padding:28px 30px;
+    background:repeating-linear-gradient(135deg, rgba(127,184,157,0.03) 0 10px, transparent 10px 20px);
+  }
+  .edu-card .status{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--amber);
+    letter-spacing:0.08em;
+    margin-bottom:10px;
+    display:inline-block;
+    border:1px solid var(--amber);
+    padding:3px 9px;
+    border-radius:20px;
+  }
+  .edu-card h3{font-size:20px;margin-bottom:6px;}
+  .edu-card .field{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--text-faint);
+    font-size:13px;
+  }
+  .edu-card .placeholder-note{
+    margin-top:14px;
+    font-size:12.5px;
+    color:var(--text-faint);
+  }
+
+  /* ---------- projects ---------- */
+  .project-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:34px 36px;
+  }
+  .project-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:6px;
+  }
+  .project-head h3{font-size:23px;}
+  .project-head .date{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--text-faint);
+    white-space:nowrap;
+    padding-top:6px;
+  }
+  .project-card ul{
+    margin:20px 0 22px;
+    padding-left:0;
+    list-style:none;
+  }
+  .project-card li{
+    position:relative;
+    padding-left:20px;
+    margin-bottom:11px;
+    color:var(--text-dim);
+    font-size:14.5px;
+  }
+  .project-card li::before{
+    content:'›';
+    position:absolute;left:0;top:0;
+    color:var(--sage);
+    font-family:'JetBrains Mono',monospace;
+  }
+  .stack-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:20px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
+  .stack-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    color:var(--sage);
+    background:rgba(127,184,157,0.08);
+    border:1px solid var(--sage-dim);
+    padding:4px 10px;
+    border-radius:3px;
+  }
+  .paper-row{margin-top:18px;}
+  .paper-link{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--amber);
+    border:1px solid var(--amber);
+    padding:10px 18px;
+    border-radius:2px;
+    transition:all .2s;
+  }
+  .paper-link:hover{
+    background:rgba(227,168,87,0.1);
+  }
+  .paper-icon{font-size:14px;}
+
+  /* ---------- certifications ---------- */
+  .cert-list{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+  }
+  @media (max-width:760px){
+    .cert-list{grid-template-columns:1fr;}
+  }
+  .cert-card{
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:24px 26px;
+    background:var(--bg-card);
+  }
+  .cert-img{
+    width:100%;
+    border-radius:3px;
+    border:1px solid var(--line);
+    margin-bottom:18px;
+    display:block;
+  }
+  .cert-card .issuer{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    color:var(--amber);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+  .cert-card h3{
+    font-size:17px;
+    margin:8px 0 12px;
+    line-height:1.35;
+  }
+  .cert-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    color:var(--text-faint);
+  }
+  .cert-meta b{color:var(--text-dim);font-weight:500;}
+
+  /* ---------- contact ---------- */
+  .contact-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .contact-wrap h2{
+    font-size:clamp(30px,5vw,46px);
+    max-width:640px;
+    margin-bottom:18px;
+  }
+  .contact-wrap p{color:var(--text-dim);max-width:520px;margin-bottom:36px;}
+  .contact-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .clink{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 20px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--text-dim);
+    transition:all .2s;
+  }
+  .clink:hover{
+    border-color:var(--sage);
+    color:var(--sage);
+    background:rgba(127,184,157,0.06);
+  }
+  .clink .k{color:var(--text-faint);}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:26px 0;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;
+    color:var(--text-faint);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  /* scroll reveal */
+  .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1;transform:none;transition:none;}
+    .gauge-fill{transition:none;}
+    #typed-line::after{animation:none;}
+  }
+
+  :focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<header>
+  <nav class="wrap">
+    <div class="brand"><span class="dot"></span> astha.thapa</div>
+    <div class="navlinks">
+      <a href="#about"><span class="idx">01</span>About</a>
+      <a href="#skills"><span class="idx">02</span>Skills</a>
+      <a href="#education"><span class="idx">03</span>Education</a>
+      <a href="#projects"><span class="idx">04</span>Projects</a>
+      <a href="#certifications"><span class="idx">05</span>Certs</a>
+      <a href="#contact"><span class="idx">06</span>Contact</a>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" style="border-top:none;padding-top:70px;">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span></span><span></span><span></span>
+        <span class="label">status.sh</span>
+      </div>
+      <div class="terminal-body">
+        <div class="line muted">$ whoami</div>
+        <div class="line out" id="typed-line"></div>
+        <div class="line muted" style="margin-top:10px;">$ cat current_focus.txt</div>
+        <div class="line out">Artificial Intelligence &amp; Machine Learning</div>
+      </div>
+    </div>
+
+    <h1>Astha Thapa</h1>
+    <div class="role">B.TECH CSE (AI/ML) &mdash; UNDERGRAD STUDENT</div>
+    <p class="tag">Computer science student who likes writing code, solving problems, and turning ideas into something that works. Exploring software development and AI/ML along the way.</p>
+
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-solid">View Projects</a>
+      <!-- EDIT: RESUME — point this at your CV file -->
+      <a href="https://1drv.ms/b/c/14F95B97BF2E3CF5/IQCocXJ3CB1mTryrM29UscwyAfgXre3IBwGjGIsgkcROwWk?e=FACQkC" class="btn btn-ghost">View CV</a>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about">
+    <div class="reveal">
+      <div class="eyebrow">01 / About</div>
+      <h2 class="section-title">Still early in the build, learning in public.</h2>
+    </div>
+
+    <div class="about-grid reveal">
+      <div>
+        <!-- EDIT: PHOTO — replace the div below with <img src="your-photo.jpg" alt="Astha Thapa" style="width:100%;height:100%;object-fit:cover;"> -->
+        <img src="assets/IMG_20260829_101837.jpg" alt="Astha Thapa" style="width:40%;height:40%;object-fit:cover;"></a></a></a>
+        <p>I'm an undergraduate Computer Science student specializing in AI and ML, with an interest in programming and building a strong foundation in software development. I enjoy learning by writing code, experimenting with ideas, and working on small projects that turn concepts from coursework into something practical.</p>
+        <p>My current focus is on C, C++, Python, web technologies, and relational databases, while gradually developing a deeper understanding of machine learning as part of my specialization.</p>
+      </div>
+
+      <div class="readout">
+        <div class="rline"><span class="k">ROLE</span><span class="v">CSE Undergraduate</span></div>
+        <div class="rline"><span class="k">SPECIALIZATION</span><span class="v">AI &amp; ML</span></div>
+        <div class="rline"><span class="k">CORE_LANG</span><span class="v">C / C++ / Python</span></div>
+        <div class="rline"><span class="k">WEB</span><span class="v">HTML / CSS / JS</span></div>
+        <div class="rline"><span class="k">DATABASES</span><span class="v">MySQL / PostgreSQL</span></div>
+        <div class="rline"><span class="k">STATUS</span><span class="v">Open to learning &amp; internships</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SKILLS ================= -->
+  <section id="skills">
+    <div class="reveal">
+      <div class="eyebrow">02 / Arsenal</div>
+      <h2 class="section-title">Skills, read like a sensor dashboard.</h2>
+    </div>
+
+    <div class="skill-groups reveal">
+      <div class="skill-card">
+        <h3>Core Languages</h3>
+        <div class="gauge">
+          <div class="gauge-top"><span class="name">C</span><span class="lvl">Core Logic</span></div>
+          <div class="gauge-track"><div class="gauge-fill" data-fill="72"></div></div>
+        </div>
+        <div class="gauge">
+          <div class="gauge-top"><span class="name">C++</span><span class="lvl">OOP &amp; DSA</span></div>
+          <div class="gauge-track"><div class="gauge-fill" data-fill="75"></div></div>
+        </div>
+        <div class="gauge">
+          <div class="gauge-top"><span class="name">Python</span><span class="lvl">Scripting &amp; Logic</span></div>
+          <div class="gauge-track"><div class="gauge-fill amber" data-fill="80"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h3>Web Fundamentals</h3>
+        <div class="gauge">
+          <div class="gauge-top"><span class="name">HTML</span><span class="lvl">Structure</span></div>
+          <div class="gauge-track"><div class="gauge-fill" data-fill="80"></div></div>
+        </div>
+        <div class="gauge">
+          <div class="gauge-top"><span class="name">CSS</span><span class="lvl">Styling &amp; Layout</span></div>
+          <div class="gauge-track"><div class="gauge-fill" data-fill="72"></div></div>
+        </div>
+        <div class="gauge">
+          <div class="gauge-top"><span class="name">JavaScript</span><span class="lvl">Interactivity</span></div>
+          <div class="gauge-track"><div class="gauge-fill" data-fill="65"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h3>Databases</h3>
+        <div class="gauge">
+          <div class="gauge-top"><span class="name">MySQL</span><span class="lvl">Queries &amp; Joins</span></div>
+          <div class="gauge-track"><div class="gauge-fill" data-fill="68"></div></div>
+        </div>
+        <div class="gauge">
+          <div class="gauge-top"><span class="name">PostgreSQL</span><span class="lvl">Schema Design</span></div>
+          <div class="gauge-track"><div class="gauge-fill" data-fill="62"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="learning-row reveal">
+      <div class="learning-chip">Machine Learning Fundamentals</div>
+      <div class="learning-chip">Embedded Systems &amp; IoT</div>
+      <div class="learning-chip">Data Structures &amp; Algorithms</div>
+    </div>
+  </section>
+
+  <!-- ================= SOFT SKILLS ================= -->
+  <section id="soft-skills" style="padding-top:0;border-top:none;">
+    <div class="soft-grid reveal">
+      <div class="soft-item">
+        <span class="num">01</span>
+        <h4>Analytical Thinking</h4>
+        <p>Breaking a messy problem &mdash; like sensor noise or a failing build &mdash; into testable pieces before reaching for a fix.</p>
+      </div>
+      <div class="soft-item">
+        <span class="num">02</span>
+        <h4>Team Collaboration</h4>
+        <p>Comfortable splitting work across a project, syncing on Git, and merging pieces built independently into one working system.</p>
+      </div>
+      <div class="soft-item">
+        <span class="num">03</span>
+        <h4>Adaptability</h4>
+        <p>Moving between hardware, backend logic, and coursework in the same week without losing momentum on any of them.</p>
+      </div>
+      <div class="soft-item">
+        <span class="num">04</span>
+        <h4>Communication</h4>
+        <p>Explaining a technical decision &mdash; why a threshold was set a certain way &mdash; in terms a non-technical reader can follow.</p>
+      </div>
+      <div class="soft-item">
+        <span class="num">05</span>
+        <h4>Time Management</h4>
+        <p>Balancing coursework deadlines with longer-running personal builds without either one stalling out.</p>
+      </div>
+      <div class="soft-item">
+        <span class="num">06</span>
+        <h4>Attention to Detail</h4>
+        <p>The kind of care that catches an off-by-one error or a mislabeled sensor pin before it becomes a bigger problem.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EDUCATION ================= -->
+  <section id="education">
+    <div class="reveal">
+      <div class="eyebrow">03 / Education</div>
+      <h2 class="section-title">Currently in progress.</h2>
+    </div>
+
+    <!-- EDIT: EDUCATION — fill in your college name and years below -->
+    <div class="edu-card reveal">
+      <span class="status">IN PROGRESS</span>
+      <h3>B.Tech, Computer Science &amp; Engineering (AI &amp; ML)</h3>
+      <div class="field"> Lovely Professional University &nbsp;&middot;&nbsp; [ 2025 ] &ndash; [ 2029 ]</div>
+        </div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section id="projects">
+    <div class="reveal">
+      <div class="eyebrow">04 / Projects</div>
+      <h2 class="section-title">Built to sense, decide, and act.</h2>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-head">
+        <h3>Automated Plant Health Monitoring &amp; Pesticide Spraying System</h3>
+        <div class="date">FEB 2026 &ndash; MAY 2026</div>
+      </div>
+      <ul>
+        <li>Developed an automated plant health monitoring system using an Arduino Uno, TCS34725 RGB sensor, DHT22, soil moisture sensor, and water-level sensor for continuous crop-condition assessment.</li>
+        <li>Implemented Green Leaf Index (GLI) analysis from RGB measurements and Vapor Pressure Deficit (VPD) calculation from temperature and humidity data to evaluate tomato plant stress.</li>
+        <li>Designed a four-level severity classification system that analyses sensor parameters and determines whether the plant is healthy or requires spraying.</li>
+        <li>Automated pesticide spraying through a relay-controlled 12V DC pump, with spray duration adjusted according to the detected severity level.</li>
+        <li>Integrated a cyclic monitoring mechanism that reads sensor data after a 10-second interval and continuously updates spraying decisions while preventing pump operation when the tank is empty.</li>
+      </ul>
+      <div class="stack-row">
+        <span class="stack-tag">Arduino Uno</span>
+        <span class="stack-tag">Embedded C/C++</span>
+        <span class="stack-tag">TCS34725 RGB Sensor</span>
+        <span class="stack-tag">DHT22</span>
+        <span class="stack-tag">Soil Moisture Sensor</span>
+        <span class="stack-tag">Water-Level Sensor</span>
+        <span class="stack-tag">Relay Module</span>
+        <span class="stack-tag">12V DC Pump</span>
+      </div>
+      <div class="paper-row">
+        <a href="https://1drv.ms/b/c/14F95B97BF2E3CF5/IQARqnkj7l3KSoEyPhFqT17oAeHXlgbccfa1DGCHDKqqbnY?e=32wnXb" class="paper-link" target="_blank" rel="noopener">
+          <span class="paper-icon">📄</span>
+          <span>Read the paper here...</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CERTIFICATIONS ================= -->
+  <section id="certifications">
+    <div class="reveal">
+      <div class="eyebrow">05 / Certifications</div>
+      <h2 class="section-title">Courses and credentials completed so far.</h2>
+    </div>
+
+    <div class="cert-list reveal">
+      <div class="cert-card">
+        <img class="cert-img" src="assets/Screenshot 2026-08-29 103703.png" alt="Infosys Springboard certificate — Introduction to Artificial Intelligence">
+        <div class="issuer">Infosys Springboard</div>
+        <h3>Introduction to Artificial Intelligence</h3>
+        <div class="cert-meta">
+          <span><b>Issued</b> Mar 26, 2026</span>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <img class="cert-img" src="assets/Screenshot 2026-08-29 104325.png" alt="Saylor Academy certificate — CS107: C++ Programming">
+        <div class="issuer">Saylor Academy</div>
+        <h3>CS107: C++ Programming</h3>
+        <div class="cert-meta">
+          <span><b>Issued</b> Feb 4, 2026</span>
+          <span><b>Grade</b> 92.50%</span>
+          <span><b>Hours</b> 40</span>
+          <span><b>ID</b> 4336472095AT</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact">
+    <div class="contact-wrap reveal">
+      <div class="eyebrow">06 / Contact</div>
+      <h2>Let's build something together.</h2>
+      <p>Currently looking for internships and collaborative projects where I can put AI/ML coursework and hands-on systems work to use. Reach out through any of the channels below.</p>
+
+      <!-- EDIT: LINKS — replace each href="#" with your real profile URL -->
+      <div class="contact-links">
+        <a href="https://github.com/Asth-a"class="clink"><span class="k">&gt;</span> GitHub</a>
+        <a href="https://www.linkedin.com/in/astha-thapa-211551379/" class="clink"><span class="k">&gt;</span> LinkedIn</a>
+        <a href="mailto:asthathapa1006@gmail.com" class="clink"><span class="k">&gt;</span> Email</a>
+              </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <span>&copy; 2026 Astha Thapa.</span>
+  <span class="mono">Built with HTML, CSS &amp; JS.</span>
+</footer>
+
+<script>
+  // Typing effect for the terminal "whoami" line
+  const line = document.getElementById('typed-line');
+  const fullText = "Astha Thapa — B.Tech CSE (AI/ML) student";
+  let i = 0;
+  function type(){
+    if(i <= fullText.length){
+      line.textContent = fullText.slice(0, i);
+      i++;
+      setTimeout(type, 38);
+    }
+  }
+  type();
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  // Animate skill gauges when visible
+  const gauges = document.querySelectorAll('.gauge-fill');
+  const gio = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const el = entry.target;
+        el.style.width = el.getAttribute('data-fill') + '%';
+        gio.unobserve(el);
+      }
+    });
+  }, {threshold:0.3});
+  gauges.forEach(g=>gio.observe(g));
+</script>
+
+</body>
+</html>
